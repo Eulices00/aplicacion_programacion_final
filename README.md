@@ -5,6 +5,8 @@ El propósito de mi aplicación es facilitar la organización de los clientes e 
 
 Tiene que poder hacer un login con usuario y contraseña  para el empresario con todos los permisos y un login para los empleados ya creado  con permisos limitados.
 Que pueda hacer facturas para los clientes.
+Un cuadrante con las citas, con fecha, hora y ubicación.
+Que se pueda introducir el día y muestre  la información de ese día.
 
 Los permisos del empresario serian :
 Ver  los empleados, clientes, inventario del material, guardados en la base de datos y hacer facturas
