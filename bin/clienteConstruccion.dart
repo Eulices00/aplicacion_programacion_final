@@ -40,6 +40,19 @@ loginCliente() async {
       await conn.close();
     }
   }
+
+  
+  insertarCliente() async {
+    var conn = await DatabaseC().conexion();
+    try {
+      await conn.query('INSERT INTO clientes (nombre, direccion, telefono, password) VALUES (?,?,?,?)',[nombrecliente, direccion, telefono, password]);
+      print('Cliente insertado correctamente');
+    } catch (e) {
+      print(e);
+    } finally {
+      await conn.close();
+    }
+  }
 }
 
  

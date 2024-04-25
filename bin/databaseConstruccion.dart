@@ -70,7 +70,7 @@ _crearTablaJefe(conn) async{
   nombre VARCHAR(20) NOT NULL,
   password VARCHAR(20) NOT NULL
   )''');
-  
+  print("tabla jefe ");
 }
 
 
@@ -80,7 +80,7 @@ idcita INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 fecha DATE NOT NULL,
 hora TIME NOT NULL,
 cliente VARCHAR(20) NOT NULL,
-direccion VARCHAR(80) NOT NULL
+direccion VARCHAR(70) NOT NULL
 )''');
 }
 
@@ -90,7 +90,7 @@ _crearTablaClientes(conn) async{
     nombre VARCHAR(20) NOT NULL,
     direccion VARCHAR (80) NOT NULL,
     telefono VARCHAR(9) NOT NULL,
-    password VARCHAR(20) NOT NULL,
+    password VARCHAR(20) NOT NULL
   )''');
   print('tabla clientes creada');
 }

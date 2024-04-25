@@ -2,20 +2,20 @@ import 'package:mysql1/mysql1.dart';
 import 'databaseConstruccion.dart';
 
 class Jefe {
-int? idjefe;
-String? nombreJefe;
-String? passwordJefe;
+ int? idjefe;
+ String? nombreJefe;
+ String? passwordJefe;
 
-
-Jefe();
+  
+ Jefe();
 
   Jefe.fromMap(ResultRow map) {
     idjefe = map['idjefe'];
-    nombreJefe = map['nombreJefe'];
-    passwordJefe = map['passwordJefe'];
-}
+    nombreJefe = map['nombre'];
+    passwordJefe = map['password'];
+ }
 
-loginJefe() async {
+ loginJefe() async {
     var conn = await DatabaseC().conexion();
     try {
       var resultado = await conn.query('SELECT * FROM jefe WHERE nombre = ?', [nombreJefe]);
@@ -32,4 +32,5 @@ loginJefe() async {
     }
   }
 
+  
 }
