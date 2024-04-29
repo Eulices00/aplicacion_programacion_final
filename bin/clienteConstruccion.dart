@@ -19,7 +19,8 @@ Cliente.fromMap(ResultRow map){
   idcliente = map['idcliente'];
   direccion = map['direccion'];
   telefono = map['telefono'];
-  nombrecliente = map['nombrecliente'];
+  //para buscarlo-----en la tabla
+  nombrecliente = map['nombre'];
   password = map ['password'];
 }
 
@@ -47,6 +48,20 @@ loginCliente() async {
     try {
       await conn.query('INSERT INTO clientes (nombre, direccion, telefono, password) VALUES (?,?,?,?)',[nombrecliente, direccion, telefono, password]);
       print('Cliente insertado correctamente');
+    } catch (e) {
+      print(e);
+    } finally {
+      await conn.close();
+    }
+  }
+
+  all2() async {
+    var conn = await DatabaseC().conexion();
+
+    try {
+      var resultado = await conn.query('SELECT * FROM clientes');
+      List<Cliente> clientes = resultado.map((row) => Cliente.fromMap(row)).toList();
+      return clientes;
     } catch (e) {
       print(e);
     } finally {

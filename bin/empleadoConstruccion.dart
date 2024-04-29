@@ -33,4 +33,19 @@ loginEmpleado() async {
     }
   }
 
+
+all() async {
+    var conn = await DatabaseC().conexion();
+
+    try {
+      var resultado = await conn.query('SELECT * FROM empleados');
+      List<Empleado> empleados =
+          resultado.map((row) => Empleado.fromMap(row)).toList();
+      return empleados;
+    } catch (e) {
+      print(e);
+    } finally {
+      await conn.close();
+    }
+  }
 }

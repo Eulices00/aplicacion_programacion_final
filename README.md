@@ -9,11 +9,12 @@ Un cuadrante con las citas, con fecha, hora y ubicación.
 Que se pueda introducir el día y muestre  la información de ese día.
 
 Los permisos del empresario serian :
-Ver  los empleados, clientes, inventario del material, guardados en la base de datos y hacer facturas
+Ver  los empleados, clientes, inventario del material, guardados en la base de datos, hacer facturas
+y añadir cosas al inventario.
 
 Los permisos del empleado serian :
 Ver los clientes registrados en la base de datos , inventario del material y hacer facturas.
 
-
+Los clientes podrán sacar citas
 
 Al iniciar la aplicación pedirá nombre de usuario y contraseña, si los datos son correctos se le dirigirá al menú logueado y podrá acceder a la información de la base de datos y hacer facturas.

@@ -27,6 +27,7 @@ class DatabaseC {
       await _crearTablaEmpleados(conn);
       await _crearTablaCita(conn);
       await _crearTablaClientes(conn);
+      await _crearTablaInventario(conn);
       await conn.close();
     } catch(e){
       print(e);
@@ -55,37 +56,37 @@ class DatabaseC {
   }
 
   _crearTablaEmpleados(conn) async{
-await conn.query('''CREATE TABLE IF NOT EXISTS Empleados(
-idempleado INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(20) NOT NULL,
-password VARCHAR(20) NOT NULL 
-)''');
+   await conn.query('''CREATE TABLE IF NOT EXISTS Empleados(
+   idempleado INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   nombre VARCHAR(20) NOT NULL,
+   password VARCHAR(20) NOT NULL 
+   )''');
 
   }
 
 
-_crearTablaJefe(conn) async{
-  await conn.query('''CREATE TABLE IF NOT EXISTS jefe(
-  idjefe INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(20) NOT NULL,
-  password VARCHAR(20) NOT NULL
-  )''');
-  print("tabla jefe ");
-}
+ _crearTablaJefe(conn) async{
+   await conn.query('''CREATE TABLE IF NOT EXISTS jefe(
+   idjefe INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   nombre VARCHAR(20) NOT NULL,
+   password VARCHAR(20) NOT NULL
+   )''');
+   print("tabla jefe ");
+ }
 
 
 _crearTablaCita(conn) async{
   await conn.query('''CREATE TABLE IF NOT EXISTS Cita(
-idcita INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-fecha DATE NOT NULL,
-hora TIME NOT NULL,
-cliente VARCHAR(20) NOT NULL,
-direccion VARCHAR(70) NOT NULL
-)''');
+ idcita INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ fecha DATE NOT NULL,
+ hora TIME NOT NULL,
+ cliente VARCHAR(20) NOT NULL,
+ direccion VARCHAR(70) NOT NULL
+ )''');
 }
 
 _crearTablaClientes(conn) async{
-  await conn.query('''CREATE TABLE IF NOT EXISTS Clientes(
+   await conn.query('''CREATE TABLE IF NOT EXISTS Clientes(
     idcliente INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(20) NOT NULL,
     direccion VARCHAR (80) NOT NULL,
@@ -94,4 +95,16 @@ _crearTablaClientes(conn) async{
   )''');
   print('tabla clientes creada');
 }
+
+_crearTablaInventario(conn) async{
+ await conn.query('''CREATE TABLE  IF NOT EXISTS Inventario(
+  material VARCHAR(50) NOT NULL,
+  cantidad INT NOT NULL,
+  precio DOUBLE NOT NULL
+ ) ''');
+
+
+
+}
+
 }
