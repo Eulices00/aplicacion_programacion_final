@@ -27,11 +27,11 @@ class App{
    menuJefelogueado(jefe);
    break;
    case 2:
-   Empleado empleado  = await login2();
+   Empleado empleado  = await loginEmpleados();
    menuEmpleadologueado(empleado);
    break;
    case 3:
-   Cliente cliente = await login3();
+   Cliente cliente = await loginClientes();
    menuClientelogueado(cliente);
    break;
    case 4:
@@ -47,8 +47,7 @@ class App{
       1 - Listar empleados
       2 - Listar clientes
       3 - Inventario
-      4 - Añadir objeto al inventario
-      5 - Hacer factura''');
+      4 - Hacer factura''');
       String respuesta = stdin.readLineSync() ?? 'e';
       opcion = int.tryParse(respuesta);
     } while(opcion == null || opcion != 1 && opcion !=2 && opcion !=3 && opcion !=4);
@@ -64,19 +63,15 @@ class App{
         break;
        
        case 3:
-       //await hacerInventario();
-       print ('caso 3 de login jefe');
+       await menuInventario(jefe);
 
        break;
 
        case 4:
-       await pedirMaterial();
+       //await hacerFactura(jefe);
        print ('caso 4 de login jefe');
       break;
-      case 5:
-       //await hacerFactura();
-       print ('caso 5 de login jefe');
-      break;
+      
     }
   }
 
@@ -93,7 +88,7 @@ class App{
      ''');
      respuesta =stdin.readLineSync() ?? 'error';
      opcion = int.tryParse(respuesta);
-    }while(opcion == null);
+    }while(opcion == null ||  opcion != 1 &&  opcion != 2 && opcion != 3);
 
 
     switch(opcion){
@@ -104,7 +99,7 @@ class App{
       
       case 2:
       print('caso 2 menu empleado');
-      //await hacerInventario();
+      await verInventario();
       break;
       
       case 3:
@@ -127,13 +122,43 @@ class App{
      ''');
      respuesta =stdin.readLineSync() ?? 'error';
      opcion = int.tryParse(respuesta);
-    }while(opcion == null);
+    }while(opcion == null ||  opcion != 1 );
 
    switch(opcion){
     case 1:
     print('caso 1 menu cliente');
     break;
    }
+
+  }
+
+
+  menuInventario(Jefe jefe) async{
+   String? respuesta;
+   int? opcion;
+   do{
+    stdout.writeln('''
+   1. Ver inventario
+   2. Añadir material
+   3. Eliminar material
+   ''');
+   respuesta = stdin.readLineSync() ?? 'error';
+   opcion = int.tryParse(respuesta);
+   }while(opcion == null || opcion != 1 && opcion != 2 && opcion != 3);
+   switch(opcion) {
+    case 1:
+     await verInventario();
+    break;
+
+    case 2:
+     await pedirMaterial();
+    break;
+
+    case 3:
+    await eliminarMaterial();
+    break;
+  }
+   
 
   }
 
@@ -154,7 +179,7 @@ class App{
     }
   }
 
-  login2() async {
+  loginEmpleados() async {
     Empleado empleado = new Empleado();
     stdout.writeln('Introduce tu nombre de usuario');
     empleado.nombreEmpleado = stdin.readLineSync();
@@ -169,7 +194,7 @@ class App{
     }
   }
 
-login3() async {
+  loginClientes() async {
     Cliente cliente = new Cliente();
     stdout.writeln('Introduce tu nombre de usuario');
     cliente.nombrecliente = stdin.readLineSync();
@@ -184,7 +209,7 @@ login3() async {
     }
   }
 
-  //PEDIR CLIENTE Y COSAS AL INVENTARIO
+  //PEDIR CLIENTE Y COSAS PARA AÑADIR AL INVENTARIO
 
   crearCliente() async {
     Cliente cliente = new Cliente();
@@ -205,10 +230,10 @@ login3() async {
   }
 
   pedirMaterial() async{
-   String? respuesta;
-   int? cantidad;
-   String? respuesta2;
-   double? precio;
+    String? respuesta;
+    int? cantidad;
+    String? respuesta2;
+    double? precio;
     Inventario inventario = new Inventario();
     stdout.writeln('Material:');
     inventario.material = stdin.readLineSync();
@@ -219,21 +244,21 @@ login3() async {
      cantidad = int.tryParse(respuesta);
     }while(cantidad == null);
     inventario.cantidad = cantidad;
-
+    
     
     do{
     stdout.writeln('Precio:');
     respuesta2 = stdin.readLineSync() ?? 'error';
     precio = double.tryParse(respuesta2);
-    inventario.precio = precio;
     }while(precio == null);
+    inventario.precio = precio;
     await inventario.insertarMaterial();
   }
+  
 
-
-  //  LISTAS CON EMPLEADOS Y CLIENTES
+  //  LISTAS CON EMPLEADOS, CLIENTES E INVENTARIO
   listarEmpleados()async{
-    List<Empleado> listadoEmpleados = await Empleado().all();
+    List<Empleado> listadoEmpleados = await Empleado().allEmpleados();
     for(Empleado elemento in listadoEmpleados){
       stdout.writeln(elemento.nombreEmpleado);
     }
@@ -241,9 +266,45 @@ login3() async {
 
   
   listarClientes()async{
-    List<Cliente> listadoClientes = await Cliente().all2();
+    List<Cliente> listadoClientes = await Cliente().allClientes();
     for(Cliente elemento in listadoClientes){
       stdout.writeln(elemento.nombrecliente);
     }
+  }
+
+  verInventario() async {
+   List<Inventario> listadoInventario = await Inventario().allInventario();
+   for(Inventario elemento  in listadoInventario){
+  
+    double total = elemento.cantidad * elemento.precio;
+    
+    stdout.writeln('''
+      Material               Cantidad              Precio/u               Total
+      ${elemento.material}                  ${elemento.cantidad}                 ${elemento.precio}                    ${total}
+    ''');
+   }
+  }
+
+  eliminarMaterial()async{
+   String? material;
+   String? respuestacantidad;
+   int ? cantidad;
+   Inventario inventario = new Inventario();
+
+    stdout.writeln('Material a eliminar:');
+    material = stdin.readLineSync() ?? 'e';
+
+    if(material == inventario.material){
+      stdout.writeln('Cantidad a cambiar');
+      respuestacantidad = stdin.readLineSync()?? 'error';
+      cantidad = int.tryParse(respuestacantidad);
+      inventario.material = material;
+      await inventario.cambiarCantidad();
+
+    
+    }else{
+      stdout.writeln('Ese material no está en la base de datos');
+    }
+
   }
 }

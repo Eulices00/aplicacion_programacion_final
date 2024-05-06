@@ -2,21 +2,20 @@ import 'package:mysql1/mysql1.dart';
 import 'databaseConstruccion.dart';
 
 class Empleado {
-int? idempleado;
-String? nombreEmpleado;
-String? passwordEmpleado;
+ int? idempleado;
+ String? nombreEmpleado;
+ String? passwordEmpleado;
 
 
 
-Empleado();
-
+ Empleado();
   Empleado.fromMap(ResultRow map) {
     idempleado = map['idempleado'];
     nombreEmpleado = map['nombre'];
     passwordEmpleado = map['password'];
   }
 
-loginEmpleado() async {
+  loginEmpleado() async {
     var conn = await DatabaseC().conexion();
     try {
       var resultado = await conn.query('SELECT * FROM empleados WHERE nombre = ?', [nombreEmpleado]);
@@ -34,7 +33,7 @@ loginEmpleado() async {
   }
 
 
-all() async {
+  allEmpleados() async {
     var conn = await DatabaseC().conexion();
 
     try {

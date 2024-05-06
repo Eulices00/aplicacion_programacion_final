@@ -4,28 +4,28 @@ import 'databaseConstruccion.dart';
 
 class Cliente{
 
-int? idcliente;
-String? direccion;
-String? telefono;
-String? nombrecliente;
-String? password;
+ int? idcliente;
+ String? direccion;
+ String? telefono;
+ String? nombrecliente;
+ String? password;
 
 
 
 
 
-Cliente();
-Cliente.fromMap(ResultRow map){
-  idcliente = map['idcliente'];
-  direccion = map['direccion'];
-  telefono = map['telefono'];
-  //para buscarlo-----en la tabla
-  nombrecliente = map['nombre'];
-  password = map ['password'];
-}
+  Cliente();
+  Cliente.fromMap(ResultRow map){
+   idcliente = map['idcliente'];
+   direccion = map['direccion'];
+   telefono = map['telefono'];
+   //para buscarlo-----en la tabla
+   nombrecliente = map['nombre'];
+   password = map ['password'];
+ }
 
 
-loginCliente() async {
+  loginCliente() async {
     var conn = await DatabaseC().conexion();
     try {
       var resultado = await conn.query('SELECT * FROM clientes WHERE nombre = ?', [nombrecliente]);
@@ -55,7 +55,7 @@ loginCliente() async {
     }
   }
 
-  all2() async {
+  allClientes() async {
     var conn = await DatabaseC().conexion();
 
     try {

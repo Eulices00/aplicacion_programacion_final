@@ -1,5 +1,5 @@
 import  'package:mysql1/mysql1.dart';
-//bien
+
 
 class DatabaseC {
   //                                     Propiedades
@@ -20,7 +20,7 @@ class DatabaseC {
   
 
 
-  var conn = await MySqlConnection.connect(settings); //conn variable de tipo mysqlconetion
+   var conn = await MySqlConnection.connect(settings); //conn variable de tipo mysqlconetion
     try{
       await _crearDB(conn);
       await _crearTablaJefe(conn);
@@ -34,7 +34,6 @@ class DatabaseC {
       await conn.close();
     }
 
-  
   }
 
   Future<MySqlConnection> conexion() async {
@@ -44,9 +43,7 @@ class DatabaseC {
       user: this._user,
       db: 'construccion'
     );
-      
     return await MySqlConnection.connect(settings);
- 
   }
 
   _crearDB (conn) async{
@@ -77,16 +74,16 @@ class DatabaseC {
 
 _crearTablaCita(conn) async{
   await conn.query('''CREATE TABLE IF NOT EXISTS Cita(
- idcita INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
- fecha DATE NOT NULL,
- hora TIME NOT NULL,
- cliente VARCHAR(20) NOT NULL,
- direccion VARCHAR(70) NOT NULL
- )''');
+   idcita INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   fecha DATE NOT NULL,
+   hora TIME NOT NULL,
+   cliente VARCHAR(20) NOT NULL,
+   direccion VARCHAR(70) NOT NULL
+  )''');
 }
 
 _crearTablaClientes(conn) async{
-   await conn.query('''CREATE TABLE IF NOT EXISTS Clientes(
+  await conn.query('''CREATE TABLE IF NOT EXISTS Clientes(
     idcliente INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(20) NOT NULL,
     direccion VARCHAR (80) NOT NULL,
@@ -98,13 +95,11 @@ _crearTablaClientes(conn) async{
 
 _crearTablaInventario(conn) async{
  await conn.query('''CREATE TABLE  IF NOT EXISTS Inventario(
-  material VARCHAR(50) NOT NULL,
+  material VARCHAR (50) NOT NULL,
   cantidad INT NOT NULL,
   precio DOUBLE NOT NULL
  ) ''');
-
-
-
+ print('tabla inventario creada');
 }
 
 }
