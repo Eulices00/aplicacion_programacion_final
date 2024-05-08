@@ -27,7 +27,7 @@ class DatabaseC {
       await _crearTablaEmpleados(conn);
       await _crearTablaCita(conn);
       await _crearTablaClientes(conn);
-      await _crearTablaInventario(conn);
+      await _crearTablaMateriales(conn);
       await conn.close();
     } catch(e){
       print(e);
@@ -93,13 +93,15 @@ _crearTablaClientes(conn) async{
   print('tabla clientes creada');
 }
 
-_crearTablaInventario(conn) async{
- await conn.query('''CREATE TABLE  IF NOT EXISTS Inventario(
+_crearTablaMateriales(conn) async{
+ await conn.query('''CREATE TABLE  IF NOT EXISTS Materiales(
+  
+  idmaterial INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   material VARCHAR (50) NOT NULL,
   cantidad INT NOT NULL,
   precio DOUBLE NOT NULL
  ) ''');
- print('tabla inventario creada');
+ print('tabla materiales creada');
 }
 
 }

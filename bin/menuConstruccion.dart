@@ -68,8 +68,7 @@ class App{
        break;
 
        case 4:
-       //await hacerFactura(jefe);
-       print ('caso 4 de login jefe');
+       await hacerFactura();
       break;
       
     }
@@ -98,13 +97,11 @@ class App{
      break;
       
       case 2:
-      print('caso 2 menu empleado');
       await verInventario();
       break;
       
       case 3:
-      print('caso 3 menu empleado');
-      //await hacerFactura();
+      await hacerFactura();
 
 
 
@@ -280,31 +277,98 @@ class App{
     
     stdout.writeln('''
       Material               Cantidad              Precio/u               Total
-      ${elemento.material}                  ${elemento.cantidad}                 ${elemento.precio}                    ${total}
+      ${elemento.material}                  ${elemento.cantidad}€                ${elemento.precio}€                    ${total}€  
     ''');
    }
   }
 
-  eliminarMaterial()async{
+  eliminarMaterial() async{
    String? material;
-   String? respuestacantidad;
-   int ? cantidad;
-   Inventario inventario = new Inventario();
-
+   String? respuesta;
+   int? cantidad;
+   Inventario inventario = Inventario();
     stdout.writeln('Material a eliminar:');
-    material = stdin.readLineSync() ?? 'e';
-
-    if(material == inventario.material){
-      stdout.writeln('Cantidad a cambiar');
-      respuestacantidad = stdin.readLineSync()?? 'error';
-      cantidad = int.tryParse(respuestacantidad);
-      inventario.material = material;
-      await inventario.cambiarCantidad();
-
+    material = stdin.readLineSync() ?? 'error';
+    material= inventario.material;
+    do{
+    stdout.writeln('Cantidad a cambiar');
+    respuesta = stdin.readLineSync() ??'error';
+     cantidad = int.tryParse(respuesta);
     
-    }else{
-      stdout.writeln('Ese material no está en la base de datos');
-    }
+    }while(cantidad == null);
+    cantidad = inventario.cantidad ;
 
+     await inventario.cambiarCantidad();
+    
   }
+    
+    
+ hacerFactura(){
+ String? nombreEmpleado;
+ String? nombreCliente;
+ String? calle;
+ int?portal;
+ String?respuestaPortal;
+ String?respuestaPiso;
+ int?piso;
+ String?letra;
+ String?numeroCliente;
+ String? total;
+
+
+ stdout.writeln('Nombre empleado');
+ nombreEmpleado = stdin.readLineSync()?? 'error'; 
+
+ stdout.writeln('Nombre cliente');
+ nombreCliente = stdin.readLineSync()?? 'error';
+
+ stdout.writeln('Nombre calle');
+ calle = stdin.readLineSync()?? 'error';
+
+ do{
+ stdout.writeln('Portal');
+ respuestaPortal = stdin.readLineSync()?? 'error';
+ portal= int.tryParse(respuestaPortal);
+
+}while(portal == null);
+
+ do{
+ stdout.writeln('Piso');
+ respuestaPiso = stdin.readLineSync()?? 'error';
+ piso = int.tryParse(respuestaPiso);
+
+ }while(piso ==null);
+ stdout.writeln('Letra');
+ letra = stdin.readLineSync()?? 'error';
+
+ stdout.writeln('Número de contacto');
+ numeroCliente = stdin.readLineSync()?? 'error';
+
+ 
+ stdout.writeln('Total');
+ total = stdin.readLineSync()?? 'error';
+
+
+stdout.writeln('''
+____________________________________________________________
+|  FACTURA:                                                 |             
+|___________________________________________________________|                                                             
+|                                                           |
+|    Nombre empleado: $nombreEmpleado                       |                                    
+|    Datos del cliente:                                     |                       
+|                                                           |     
+|     Nombre cliente: $nombreCliente                        |                                  
+|     Calle:  $calle                                        |                 
+|     Portal: $portal                                       |                
+|     Piso:    $piso  $letra                                |                       
+|     Número de contacto: $numeroCliente                    |                                      
+|                                                           |     
+|___________________________________________________________|                                                           |     
+|       Total: $total€                                      |                 
+|___________________________________________________________|    
+                                                               
+
+
+''');
+ }
 }

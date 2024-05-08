@@ -4,6 +4,7 @@ import 'databaseConstruccion.dart';
 
 class Inventario{
 
+int? idmaterial;
  String? material;
  int cantidad = 0;
  double precio = 0 ;
@@ -11,6 +12,7 @@ class Inventario{
 
  Inventario();
  Inventario.fromMap(ResultRow map){
+  idmaterial = map ['idmaterial'];
    material = map ['material'];
    cantidad = map ['cantidad'];  
    precio = map ['precio'];
@@ -22,7 +24,7 @@ class Inventario{
   insertarMaterial() async {
     var conn = await DatabaseC().conexion();
     try {
-      await conn.query('INSERT INTO Inventario (material, cantidad, precio) VALUES (?,?,?)',[material, cantidad, precio]);
+      await conn.query('INSERT INTO Materiales (idmaterial,material, cantidad, precio) VALUES (?,?,?,?)',[idmaterial,material, cantidad, precio]);
       print('Material guardado correctamente');
     } catch (e) {
       print(e);
@@ -35,7 +37,7 @@ class Inventario{
     var conn = await DatabaseC().conexion();
 
     try {
-      var resultado = await conn.query('SELECT * FROM Inventario');
+      var resultado = await conn.query('SELECT * FROM Materiales');
       List<Inventario> inventario = resultado.map((row) => Inventario.fromMap(row)).toList();
       return inventario;
     } catch (e) {
@@ -48,8 +50,8 @@ class Inventario{
   cambiarCantidad() async {
     var conn = await DatabaseC().conexion();
     try {
-      await conn.query('INSERT INTO Inventario (cantidad) VALUES (?)',[ cantidad]);
-      print('Cantidad cambiado correctamente');
+      await conn.query(' UPDATE  Materiales SET cantidad = (?)    WHERE idmaterial = (?)',[cantidad,idmaterial]);
+      print('Cantidad cambiada correctamente');
     } catch (e) {
       print(e);
     } finally {
